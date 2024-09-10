@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    /* Custom */
+    "baseUrl": "./src",
+    "paths": {
+      "~types": ["types.ts"],
+      "~constants": ["constants.ts"],
+      "~contexts/*": ["contexts/*"],
+      "~hooks/*": ["hooks/*"],
+      "~utils/*": ["utils/*"],
+      "~components/*": ["components/*"],
+      "~logic/*": ["logic/*"]
+    },
+    "esModuleInterop": true
+  },
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
