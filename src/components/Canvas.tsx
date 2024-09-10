@@ -3,8 +3,9 @@ import { useCallback, useEffect, useMemo, useRef } from 'react'
 
 import { Button } from '~components/ui/Button'
 
-import { MAX_SHAPE_SIZE, MIN_SHAPE_SIZE, VIEWPORT_HEIGHT, VIEWPORT_WIDTH } from '~constants'
+import { MAX_SHAPE_SIZE, MIN_SHAPE_SIZE } from '~constants'
 import usePersistedState from '~hooks/usePersistedState'
+import useWindowSize from '~hooks/useWindowSize'
 
 import handleCanvas from '~logic/handleCanvas'
 import type { Shape } from '~types'
@@ -12,17 +13,18 @@ import generateRandomColor from '~utils/generateRandomColor'
 
 function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const { width, height } = useWindowSize()
 
   const createShapes = useCallback(() => {
     const shapes: Shape[] = []
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 20; i++) {
       const shapeWidth = Math.random() * (MAX_SHAPE_SIZE - MIN_SHAPE_SIZE) + MIN_SHAPE_SIZE
       const shapeHeight = Math.random() * (MAX_SHAPE_SIZE - MIN_SHAPE_SIZE) + MIN_SHAPE_SIZE
       const shape: Shape = {
         id: Math.random(),
-        x: Math.random() * (VIEWPORT_WIDTH - shapeWidth),
-        y: Math.random() * (VIEWPORT_HEIGHT - shapeHeight),
+        x: Math.random() * (width - shapeWidth),
+        y: Math.random() * (height - shapeHeight),
         width: shapeWidth,
         height: shapeHeight,
         angle: Math.random() * 2 * Math.PI,
@@ -33,7 +35,10 @@ function Canvas() {
     }
 
     return shapes
-  }, [])
+  }, [
+    width,
+    height,
+  ])
 
   const initialShapes = useMemo(() => createShapes(), [createShapes])
   const [shapes, setShapes] = usePersistedState('shapes', initialShapes)
